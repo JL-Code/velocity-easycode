@@ -9,6 +9,7 @@ $!define
 
 ##使用全局变量实现默认包导入
 $!autoImport
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import java.io.Serializable;
 

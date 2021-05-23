@@ -39,4 +39,4 @@
 #end
 
 ## 替换指定前缀
-#macro(convertBooleanNamingStyle $input)$!{tool.firstLowerCase($input.replaceFirst("is",""))}#end
+#macro(convertBooleanNamingStyle $input)$!{tool.firstLowerCase($input.replaceFirst("^is",""))}#end

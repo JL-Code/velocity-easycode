@@ -25,9 +25,6 @@ public class $!{tableInfo.name}DTO implements Serializable {
     * ${column.comment}
     */
 #end
-#if($column.type.equals("java.lang.Boolean"))
-    @TableField("${column.obj.name}")
-#end
     private $!{tool.getClsNameByFullName($column.type)} #convertBooleanNamingStyle($column.name);
 #end
 }
