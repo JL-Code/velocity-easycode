@@ -13,18 +13,16 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/dto"))
 $!autoImport
 import lombok.Data;
 import java.io.Serializable;
+import io.swagger.annotations.*;
 
 ##使用宏定义实现类注释信息
 #tableComment("数据传输对象")
 @Data
+@ApiModel(#tableComment("DTO"))
 public class $!{tableInfo.name}DTO implements Serializable {
     private static final long serialVersionUID = $!tool.serial();
 #foreach($column in $tableInfo.fullColumn)
-#if(${column.comment})
-    /**
-    * ${column.comment}
-    */
-#end
+    @ApiModelProperty(value = "$!{column.comment}")
     private $!{tool.getClsNameByFullName($column.type)} #convertBooleanNamingStyle($column.name);
 #end
 }
