@@ -1,7 +1,7 @@
 ##定义初始变量
 #set($serviceName, = $tool.append($tableInfo.name, "Controller"))
 ##设置回调
-$!callback.setFileName($tool.append($tableName, ".java"))
+$!callback.setFileName($tool.append($serviceName, ".java"))
 $!callback.setSavePath($tool.append($tableInfo.savePath, "/controller"))
 ##拿到主键
 #if(!$tableInfo.pkColumn.isEmpty())

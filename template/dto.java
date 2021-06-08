@@ -1,9 +1,9 @@
 ##引入宏定义
 $!define
 
-#set($tableName = $tool.append($tableInfo.name, "DTO"))
+#set($dtoName = $tool.append($tableInfo.name, "DTO"))
 ##设置回调
-$!callback.setFileName($tool.append($tableName, ".java"))
+$!callback.setFileName($tool.append($dtoName, ".java"))
 $!callback.setSavePath($tool.append($tableInfo.savePath, "/dto"))
 
 ##使用宏定义设置包后缀

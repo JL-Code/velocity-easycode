@@ -1,7 +1,7 @@
 ##定义初始变量
-#set($serviceName = $tool.append($tableInfo.name, "Dao"))
+#set($daoName = $tool.append($tableInfo.name, "Dao"))
 ##设置回调
-$!callback.setFileName($tool.append($tableName, ".java"))
+$!callback.setFileName($tool.append($daoName, ".java"))
 $!callback.setSavePath($tool.append($tableInfo.savePath, "/dao"))
 
 ##拿到主键
@@ -23,6 +23,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @version v1.0
  */
 @Repository
-public interface $!{serviceName} extends BaseMapper<$tableInfo.name>{
+public interface $!{daoName} extends BaseMapper<$tableInfo.name>{
 
 }
