@@ -1,7 +1,7 @@
 ##定义初始变量
-#set($serviceName, = $tool.append($tableInfo.name, "Controller"))
+#set($controllerName, = $tool.append($tableInfo.name, "Controller"))
 ##设置回调
-$!callback.setFileName($tool.append($serviceName, ".java"))
+$!callback.setFileName($tool.append($controllerName, ".java"))
 $!callback.setSavePath($tool.append($tableInfo.savePath, "/controller"))
 ##拿到主键
 #if(!$tableInfo.pkColumn.isEmpty())
@@ -24,10 +24,10 @@ import javax.annotation.Resource;
  */
 @Api(tags = "$!{tableInfo.comment}")
 @RestController
-public class $!{serviceName} {
+public class $!{controllerName} {
 
     private $!{tableInfo.name}Service $!tool.firstLowerCase($tableInfo.name)Service;
-    public $!{serviceName}($!{tableInfo.name}Service service) {
+    public $!{controllerName}($!{tableInfo.name}Service service) {
         this.service = service;
     }
 
