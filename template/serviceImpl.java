@@ -30,7 +30,7 @@ public class $!{serviceName} extends ServiceImpl<$!{tableInfo.name}Dao, $!{table
     private $!{tableInfo.name}Dao dao;
     
     public $!{serviceName}($!{tableInfo.name}Dao dao) {
-        this.$!tool.firstLowerCase($!{tableInfo.name})Dao = dao;
+        this.dao = dao;
     }
     
 }
