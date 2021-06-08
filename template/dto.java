@@ -22,7 +22,7 @@ import io.swagger.annotations.*;
 public class $!{tableInfo.name}DTO implements Serializable {
     private static final long serialVersionUID = $!tool.serial();
 #foreach($column in $tableInfo.fullColumn)
-    @ApiModelProperty(value = "$!{column.comment}")
+    @ApiModelProperty(value = "$!{column.comment}" requreied = $column.obj.isNotNull())
     private $!{tool.getClsNameByFullName($column.type)} #convertBooleanNamingStyle($column.name);
 #end
 }
