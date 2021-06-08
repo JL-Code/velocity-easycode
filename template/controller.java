@@ -1,5 +1,5 @@
 ##定义初始变量
-#set($tableName = $tool.append($tableInfo.name, "Controller"))
+#set($serviceName, = $tool.append($tableInfo.name, "Controller"))
 ##设置回调
 $!callback.setFileName($tool.append($tableName, ".java"))
 $!callback.setSavePath($tool.append($tableInfo.savePath, "/controller"))
@@ -24,11 +24,10 @@ import javax.annotation.Resource;
  */
 @Api(tags = "$!{tableInfo.comment}")
 @RestController
-@RequestMapping("/api/$!tool.firstLowerCase($tableInfo.name)")
-public class $!{tableName} {
+public class $!{serviceName} {
 
     private $!{tableInfo.name}Service $!tool.firstLowerCase($tableInfo.name)Service;
-    public $!{tableName}($!{tableInfo.name}Service service) {
+    public $!{serviceName}($!{tableInfo.name}Service service) {
         this.service = service;
     }
 
