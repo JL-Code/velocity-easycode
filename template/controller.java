@@ -1,5 +1,5 @@
 ##定义初始变量
-#set($controllerName, = $tool.append($tableInfo.name, "Controller"))
+#set($controllerName = $tool.append($tableInfo.name, "Controller"))
 ##设置回调
 $!callback.setFileName($tool.append($controllerName, ".java"))
 $!callback.setSavePath($tool.append($tableInfo.savePath, "/controller"))
@@ -10,11 +10,9 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/controller"))
 
 #if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}controller;
 
-import $!{tableInfo.savePackageName}.entity.$!{tableInfo.name};
 import $!{tableInfo.savePackageName}.service.$!{tableInfo.name}Service;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
+import io.swagger.annotations.*;
 
 /**
  * $!{tableInfo.comment}($!{tableInfo.name})表控制层
@@ -26,7 +24,7 @@ import javax.annotation.Resource;
 @RestController
 public class $!{controllerName} {
 
-    private $!{tableInfo.name}Service $!tool.firstLowerCase($tableInfo.name)Service;
+    private $!{tableInfo.name}Service service;
     public $!{controllerName}($!{tableInfo.name}Service service) {
         this.service = service;
     }
