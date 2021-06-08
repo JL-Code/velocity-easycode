@@ -1,5 +1,5 @@
 ##定义初始变量
-#set($tableName = $tool.append($tableInfo.name, "Dao"))
+#set($serviceName = $tool.append($tableInfo.name, "Dao"))
 ##设置回调
 $!callback.setFileName($tool.append($tableName, ".java"))
 $!callback.setSavePath($tool.append($tableInfo.savePath, "/dao"))
@@ -23,6 +23,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @version v1.0
  */
 @Repository
-public interface $!{tableName} extends BaseMapper<$tableInfo.name>{
+public interface $!{serviceName} extends BaseMapper<$tableInfo.name>{
 
 }

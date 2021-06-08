@@ -1,5 +1,5 @@
 ##定义初始变量
-#set($tableName = $tool.append($tableInfo.name, "ServiceImpl"))
+#set($serviceName = $tool.append($tableInfo.name, "ServiceImpl"))
 ##设置回调
 $!callback.setFileName($tool.append($tableName, ".java"))
 $!callback.setSavePath($tool.append($tableInfo.savePath, "/service/impl"))
@@ -25,12 +25,12 @@ import org.springframework.stereotype.Service;
  * @version v1.0
  */
 @Service
-public class $!{tableName} extends ServiceImpl<$!{tableInfo.name}Dao, $!{tableInfo.name}> implements $!{tableInfo.name}Service {
+public class $!{serviceName} extends ServiceImpl<$!{tableInfo.name}Dao, $!{tableInfo.name}> implements $!{tableInfo.name}Service {
     
-    private $!{tableInfo.name}Dao $!tool.firstLowerCase($!{tableInfo.name})Dao;
+    private $!{tableInfo.name}Dao dao;
     
-    public $!{tableName}($!{tableInfo.name}Dao $!tool.firstLowerCase($!{tableInfo.name})Dao) {
-        this.$!tool.firstLowerCase($!{tableInfo.name})Dao = $!tool.firstLowerCase($!{tableInfo.name})Dao;
+    public $!{serviceName}($!{tableInfo.name}Dao dao) {
+        this.$!tool.firstLowerCase($!{tableInfo.name})Dao = dao;
     }
     
 }

@@ -1,5 +1,5 @@
 ##定义初始变量
-#set($tableName = $tool.append($tableInfo.name, "Service"))
+#set($serviceName = $tool.append($tableInfo.name, "Service"))
 ##设置回调
 $!callback.setFileName($tool.append($tableName, ".java"))
 $!callback.setSavePath($tool.append($tableInfo.savePath, "/service"))
@@ -21,6 +21,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author <a href="mailto:$!email" rel="nofollow">$author</a>
  * @version v1.0
  */
-public interface $!{tableName} extends IService<$!{tableInfo.name}> {
+public interface $!{serviceName} extends IService<$!{tableInfo.name}> {
 
 }
