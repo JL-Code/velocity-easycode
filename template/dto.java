@@ -14,6 +14,8 @@ $!autoImport
 import lombok.Data;
 import java.io.Serializable;
 import io.swagger.annotations.*;
+import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.*;
 
 ##使用宏定义实现类注释信息
 #tableComment("数据传输对象")
@@ -22,7 +24,16 @@ import io.swagger.annotations.*;
 public class $!{tableInfo.name}DTO implements Serializable {
     private static final long serialVersionUID = $!tool.serial();
 #foreach($column in $tableInfo.fullColumn)
-    @ApiModelProperty(value = "$!{column.comment}" required = $column.obj.isNotNull())
+
+#if($column.type.equals("java.lang.String"))
+    @Length(max=$column.obj.dataType.length)
+#end
+#if($column.obj.isNotNull() && $column.type.equals("java.lang.String"))
+    @NotBlank
+#elseif($column.obj.isNotNull())
+    @NotNull
+#end
+    @ApiModelProperty(value = "$!{column.comment}"#if($column.obj.isNotNull()), required = $column.obj.isNotNull()#end)
     private $!{tool.getClsNameByFullName($column.type)} #convertBooleanNamingStyle($column.name);
 #end
 }

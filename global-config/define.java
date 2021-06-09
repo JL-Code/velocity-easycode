@@ -19,10 +19,11 @@
 ##定义表注释的宏定义，调用方式：#tableComment("注释信息")
 #macro(tableComment $desc)
 /**
- * $!{tableInfo.comment}($!{tableInfo.name})$desc
+ * <p>描述: $!{tableInfo.comment}($!{tableInfo.name})$desc </p>
+ * <p>创建时间: $time.currTime("yyyy/MM/dd") </p>
  *
- * @author $!author
- * @since $!time.currTime()
+ * @author <a href="mailto:$!email" rel="nofollow">$author</a>
+ * @version v1.0
  */
 #end
 
