@@ -1,5 +1,11 @@
 
-# READM
+# README
+
+## 规划功能
+
+* [x] 基本脚手架代码生成 Service、ServiceImpl、DTO、Entity、DAO、Controller
+* [x] DTO 根据字段类型自动添加对应的 `SpringValidation` 注解
+* [ ] DTO 根据字段类型自动设置类型的默认值 eg: `Number = 0 String = "" Boolean = false`。
 
 ## Velocity 模板引擎介绍
 
@@ -22,3 +28,4 @@ Velocity是一个基于java的模板引擎（template engine）。它允许任�
 ## 信息参考
 
 * [Velocity 模板引擎语法-博客园-autrol](https://www.cnblogs.com/yangzhinian/p/4885973.html)
+
