@@ -16,6 +16,7 @@ import java.io.Serializable;
 import io.swagger.annotations.*;
 import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.*;
+import javax.validation.groups.Default;
 
 ##使用宏定义实现类注释信息
 #tableComment("数据传输对象")
@@ -36,4 +37,7 @@ public class $!{tableInfo.name}DTO implements Serializable {
     @ApiModelProperty(value = "$!{column.comment}"#if($column.obj.isNotNull()), required = $column.obj.isNotNull()#end)
     private $!{tool.getClsNameByFullName($column.type)} #convertBooleanNamingStyle($column.name);
 #end
+
+    public interface Update extends Default {}
+    public interface Insert extends Default {}
 }
