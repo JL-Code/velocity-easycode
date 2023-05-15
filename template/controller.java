@@ -14,11 +14,12 @@ import $!{tableInfo.savePackageName}.service.$!{tableInfo.name}Service;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 
-/**
+ /**
  * $!{tableInfo.comment}($!{tableInfo.name})表控制层
+ * <p>创建时间: $time.currTime("yyyy/MM/dd") </p>
  *
- * @author $!author
- * @since $!time.currTime()
+ * @author <a href="mailto:$!email" rel="nofollow">$author</a>
+ * @version v1.0
  */
 @Api(tags = "$!{tableInfo.comment}")
 @RestController

@@ -7,7 +7,7 @@
 
 ##定义设置包名后缀的宏定义，调用方式：#setPackageSuffix("Test")
 #macro(setPackageSuffix $suffix)
-    #if($suffix!="")package #end#if($tableInfo.savePackageName!="")$!{tableInfo.savePackageName}.#{end}$!suffix;
+#if($suffix!="")package #end#if($tableInfo.savePackageName!="")$!{tableInfo.savePackageName}.#{end}$!suffix;
 #end
 
 ##定义直接保存路径与文件名简化的宏定义，调用方式：#save("/entity", ".java")
@@ -19,11 +19,10 @@
 ##定义表注释的宏定义，调用方式：#tableComment("注释信息")
 #macro(tableComment $desc)
 /**
- * <p>描述: $!{tableInfo.comment}($!{tableInfo.name})$desc </p>
- * <p>创建时间: $time.currTime("yyyy/MM/dd") </p>
+ * $!{tableInfo.comment}($!{tableInfo.name})$desc
  *
- * @author <a href="mailto:$!email" rel="nofollow">$author</a>
- * @version v1.0
+ * @author $!author
+ * @since $!time.currTime()
  */
 #end
 

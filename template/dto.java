@@ -26,10 +26,10 @@ public class $!{tableInfo.name}DTO implements Serializable {
     private static final long serialVersionUID = $!tool.serial();
 #foreach($column in $tableInfo.fullColumn)
 
-#if($column.type.equals("java.lang.String"))
+    #if($column.type.equals("java.lang.String"))
     @Length(max=$column.obj.dataType.length)
 #end
-#if($column.obj.isNotNull() && $column.type.equals("java.lang.String"))
+    #if($column.obj.isNotNull() && $column.type.equals("java.lang.String"))
     @NotBlank
 #elseif($column.obj.isNotNull())
     @NotNull

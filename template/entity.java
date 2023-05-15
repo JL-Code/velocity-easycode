@@ -20,12 +20,12 @@ import java.io.Serializable;
 public class $!{tableInfo.name} implements Serializable {
     private static final long serialVersionUID = $!tool.serial();
 #foreach($column in $tableInfo.fullColumn)
-#if(${column.comment})
+    #if(${column.comment})
     /**
     * ${column.comment}
     */
 #end
-#if($column.type.equals("java.lang.Boolean"))
+    #if($column.type.equals("java.lang.Boolean"))
     @TableField("${column.obj.name}")
 #end
     private $!{tool.getClsNameByFullName($column.type)} #convertBooleanNamingStyle($column.name);
