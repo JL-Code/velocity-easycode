@@ -1,15 +1,15 @@
 ##定义初始变量
-#set($daoName = $tool.append($tableInfo.name, "Dao"))
+#set($daoName = $tool.append($tableInfo.name, "Mapper"))
 ##设置回调
 $!callback.setFileName($tool.append($daoName, ".java"))
-$!callback.setSavePath($tool.append($tableInfo.savePath, "/dao"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/mapper"))
 
 ##拿到主键
 #if(!$tableInfo.pkColumn.isEmpty())
     #set($pk = $tableInfo.pkColumn.get(0))
 #end
 
-#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}dao;
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mapper;
 
 import $!{tableInfo.savePackageName}.entity.$!{tableInfo.name};
 import org.springframework.stereotype.Repository;
