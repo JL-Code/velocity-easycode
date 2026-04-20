@@ -1,31 +1,110 @@
+# FreeMarker Java CodeGen
 
-# README
+基于 FreeMarker 的 Java 代码骨架生成器，提供：
 
-## 规划功能
+- `codegen-core`：FreeMarker 渲染核心与元数据模型
+- `codegen-web`：Spring Boot Web 服务，对外提供代码生成接口（下载 ZIP）
+- `codegen-cli`：独立命令行工具，本地生成代码文件
 
-* [x] 基本脚手架代码生成 Service、ServiceImpl、DTO、Entity、DAO、Controller
-* [x] DTO 根据字段类型自动添加对应的 `SpringValidation` 注解
-* [ ] DTO 根据字段类型自动设置类型的默认值 eg: `Number = 0 String = "" Boolean = false`。
+## 项目目标
 
-## Velocity 模板引擎介绍
+- 从零构建一套可扩展的模板化代码生成能力（不依赖历史 Velocity 体系）
+- 支持两种使用方式：
+  - Web：适合平台化/多人协作，生成结果以 ZIP 下载
+  - CLI：适合本地开发、脚本化执行
 
-Velocity是一个基于java的模板引擎（template engine）。它允许任何人仅仅简单的使用模板语言（template language）来引用由java代码定义的对象。当Velocity 应用于web开发时，界面设计人员可以和java程序开发人员同步开发一个遵循MVC架构的web站点，也就是说，页面设计人员可以只关注页面的显示效果，而由java程序开发人员关注业务逻辑编码。
+## 架构概览
 
-## Velocity基本语法
+```
+                 ┌────────────────────┐
+HTTP(JSON) ────> │ codegen-web         │ ── ZIP ──> Client
+                 │ (Spring Boot API)   │
+                 └─────────┬──────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+CLI args ──────> │ codegen-cli         │ ── Files ──> Local FS
+                 │ (Picocli)           │
+                 └─────────┬──────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+                 │ codegen-core        │
+                 │ - TemplateEngine    │
+                 │ - TableInfo/Column  │
+                 └────────────────────┘
+```
 
-`"#"` 用来标识 `Velocity` 的关键字，包括 `#set、#if 、#else、#end、#foreach、#end、#include、#parse、#macro` 等；
+## 模块说明
 
-`"$"` 用来标识 `Velocity` 的变量；如：`$i、$msg、$TagUtil.options(...)`等。
+### codegen-core
 
-`"{}"` 用来明确标识 `Velocity` 变量；比如在页面中，页面中有一个 `$someonename`，此时，`Velocity` 将把 `someonename` 作为变量名，若我们程序是想在 `someone` 这个变量的后面紧接着显示 `name` 字符，则上面的标签应该改成 `${someone}name`。
+- 作用：提供 FreeMarker 渲染引擎与基础数据模型
+- 关键类：
+  - [TemplateEngine](file:///Users/codeme/workspaces/velocity-easycode/codegen-core/src/main/java/com/codegen/core/engine/TemplateEngine.java)：加载模板并渲染为字符串/文件
+  - [TableInfo](file:///Users/codeme/workspaces/velocity-easycode/codegen-core/src/main/java/com/codegen/core/model/TableInfo.java)、[ColumnInfo](file:///Users/codeme/workspaces/velocity-easycode/codegen-core/src/main/java/com/codegen/core/model/ColumnInfo.java)：生成数据模型
 
-`"!"` 用来强制把不存在的变量显示为空白。如：当找不到 `username` 的时候，`$username` 返回字符串 `"$username"`，而 `$!username` 返回空字符串 `""`
+### codegen-web
 
-## 注意事项
+- 作用：提供 HTTP API 触发生成，并将结果打包为 ZIP 返回
+- 启动类：[Application](file:///Users/codeme/workspaces/velocity-easycode/codegen-web/src/main/java/com/codegen/web/Application.java)
+- 生成接口：[GeneratorController](file:///Users/codeme/workspaces/velocity-easycode/codegen-web/src/main/java/com/codegen/web/controller/GeneratorController.java)
+  - `POST /api/generator/generate`：请求体为 `TableInfo`，响应为 `application/zip`
 
-1. 不要使用 tab 对齐，应该使用空格对齐，否则生成的代码样式错乱。
+### codegen-cli
 
-## 信息参考
+- 作用：本地命令行生成工具，便于脚本化调用
+- 入口：[Main](file:///Users/codeme/workspaces/velocity-easycode/codegen-cli/src/main/java/com/codegen/cli/Main.java)
+- 参数：
+  - `--table/-t`：表名
+  - `--class/-c`：类名
+  - `--output/-o`：输出目录
+  - `--template/-T`：可选，本地模板文件路径（未传则使用内置模板）
 
-* [Velocity 模板引擎语法-博客园-autrol](https://www.cnblogs.com/yangzhinian/p/4885973.html)
+## 快速开始
 
+### 1) 构建
+
+```bash
+mvn clean package
+```
+
+### 2) 运行 Web 服务
+
+```bash
+mvn -pl codegen-web spring-boot:run
+```
+
+示例请求（生成并下载 ZIP）：
+
+```bash
+curl -X POST 'http://localhost:8080/api/generator/generate' \
+  -H 'Content-Type: application/json' \
+  --output codegen.zip \
+  -d '{
+    "tableName": "user",
+    "className": "User",
+    "comment": "User table",
+    "columns": []
+  }'
+```
+
+### 3) 运行 CLI
+
+```bash
+java -jar codegen-cli/target/codegen-cli-1.0.0-SNAPSHOT-jar-with-dependencies.jar \
+  --table user \
+  --class User \
+  --output ./output
+```
+
+## 模板约定
+
+- 默认内置模板：`templates/entity.ftl`
+  - Web：`codegen-web/src/main/resources/templates/entity.ftl`
+  - CLI：`codegen-cli/src/main/resources/templates/entity.ftl`
+- 目前示例仅生成 Entity，可在后续扩展为 Controller/Service/DAO/Mapper 等多模板组合生成。
+
+## 说明
+
+- 仓库中仍存在历史 Velocity 模板目录（如 [template](file:///Users/codeme/workspaces/velocity-easycode/template)），当前 README 仅描述 FreeMarker 主线能力。
